@@ -64,6 +64,19 @@ MainWindow::MainWindow(QWidget *parent)
     m_isStartStreamCamServer=false;
     m_isConnect=false;
 
+    //..-----------------------------------------..//
+    ui->checkBox_Shutter->setEnabled(false);
+    ui->horizontalSlider_FOV->setEnabled(false);
+    ui->comboBox_Scale->setEnabled(false);
+    ui->comboBox_Mode->setEnabled(false);
+    ui->label_FOV->setEnabled(false);
+    ui->label_2->setEnabled(false);
+    ui->label_4->setEnabled(false);
+    ui->spinBox_temperatureMIN->setEnabled(false);
+    ui->spinBox_temperatureMAX->setEnabled(false);
+    ui->pushButton_ApplyTemperatureRange->setEnabled(false);
+    //..-----------------------------------------..//
+
 }
 
 MainWindow::~MainWindow()
@@ -196,6 +209,19 @@ void MainWindow::on_InitOpenCV_button_clicked()
                qDebug() << "Start Stream";
                m_VideoCaptureStream[i]->setIsRun(true);
                m_VideoCaptureStream[i]->start(QThread::HighestPriority);
+
+               //..-----------------------------------------..//
+               ui->checkBox_Shutter->setEnabled(true);
+               ui->horizontalSlider_FOV->setEnabled(true);
+               ui->comboBox_Scale->setEnabled(true);
+               ui->comboBox_Mode->setEnabled(true);
+               ui->label_FOV->setEnabled(true);
+               ui->label_2->setEnabled(true);
+               ui->label_4->setEnabled(true);
+               ui->spinBox_temperatureMIN->setEnabled(true);
+               ui->spinBox_temperatureMAX->setEnabled(true);
+               ui->pushButton_ApplyTemperatureRange->setEnabled(true);
+               //..-----------------------------------------..//
            }
         }
 
@@ -216,6 +242,20 @@ void MainWindow::on_InitOpenCV_button_clicked()
         m_isStream=true;
         ui->comboBox_codec->setEditable(true);
         ui->comboBox_codec->setDisabled(false);
+
+
+        //..-----------------------------------------..//
+        ui->checkBox_Shutter->setEnabled(false);
+        ui->horizontalSlider_FOV->setEnabled(false);
+        ui->comboBox_Scale->setEnabled(false);
+        ui->comboBox_Mode->setEnabled(false);
+        ui->label_FOV->setEnabled(false);
+        ui->label_2->setEnabled(false);
+        ui->label_4->setEnabled(false);
+        ui->spinBox_temperatureMIN->setEnabled(false);
+        ui->spinBox_temperatureMAX->setEnabled(false);
+        ui->pushButton_ApplyTemperatureRange->setEnabled(false);
+        //..-----------------------------------------..//
 
     }
 }
