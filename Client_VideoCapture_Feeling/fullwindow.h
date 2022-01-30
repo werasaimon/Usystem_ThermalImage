@@ -8,6 +8,9 @@
 #include <QMessageBox>
 #include <QWindow>
 #include <QResizeEvent>
+#include <QMouseEvent>
+#include <QDebug>
+#include <QTcpSocket>
 
 namespace Ui {
 class FullWindow;
@@ -26,6 +29,9 @@ public:
 
     void closeEvent(QCloseEvent *event) override;
     void resizeEvent(QResizeEvent* event) override;
+    void mouseMoveEvent(QMouseEvent* event);
+
+    void setTCPSocket(QTcpSocket *newTCPSocket);
 
 private slots:
 
@@ -37,6 +43,7 @@ private:
     QTimer *timer;
 
    IVideoThread *mOpenCV_videoCapture;
+   QTcpSocket *m_TCPSocket;
 };
 
 #endif // FULLWINDOW_H

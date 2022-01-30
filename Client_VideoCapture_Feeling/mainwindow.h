@@ -25,6 +25,7 @@ public:
     ~MainWindow();
 
     void closeEvent(QCloseEvent *event);
+    void mouseMoveEvent(QMouseEvent* event);
 
 private slots:
     void onReadyRead();
@@ -39,6 +40,20 @@ private slots:
     void on_comboBox_Scale_currentIndexChanged(int index);
 
     void on_checkBox_Shutter_toggled(bool checked);
+
+    void on_checkBox_DetectionThermalArea_toggled(bool checked);
+
+    void on_horizontalSlider_Thresh_valueChanged(int value);
+
+    void on_comboBox_Method_currentIndexChanged(int index);
+
+    void on_checkBox_DrawCountur_toggled(bool checked);
+
+    void on_checkBox_DrawArea_toggled(bool checked);
+
+    void on_checkBox_InvertMask_toggled(bool checked);
+
+    void on_checkBox_PointThermal_toggled(bool checked);
 
 private:
     Ui::MainWindow *ui;

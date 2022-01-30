@@ -118,6 +118,11 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 }
 
+void MainWindow::mouseMoveEvent(QMouseEvent *event)
+{
+   // qDebug() << QString::number(event->pos().x()) << QString::number(event->pos().y());
+}
+
 void MainWindow::on_pushButton_Connect_clicked()
 {
     if(!m_isConnect)
@@ -132,6 +137,8 @@ void MainWindow::on_pushButton_Connect_clicked()
              ui->pushButton_Connect->setText("Disconnect");
 
              connect(&m_TCPSocket, SIGNAL(readyRead()), this, SLOT(onReadyRead()));
+
+             ui->labelOpenCVFrame->setTCPSocket(&m_TCPSocket);
          }
          else
          {
@@ -298,6 +305,55 @@ void MainWindow::on_comboBox_Scale_currentIndexChanged(int index)
 void MainWindow::on_checkBox_Shutter_toggled(bool checked)
 {
     QString command = "shutter " + QString::number(checked);
+    m_TCPSocket.write(command.toStdString().c_str(),command.toStdString().size());
+}
+
+
+void MainWindow::on_checkBox_DetectionThermalArea_toggled(bool checked)
+{
+    QString command = "detection " + QString::number(checked);
+    m_TCPSocket.write(command.toStdString().c_str(),command.toStdString().size());
+}
+
+
+void MainWindow::on_horizontalSlider_Thresh_valueChanged(int value)
+{
+    QString command = "threshold " + QString::number(value);
+    m_TCPSocket.write(command.toStdString().c_str(),command.toStdString().size());
+}
+
+
+void MainWindow::on_comboBox_Method_currentIndexChanged(int index)
+{
+    QString command = "mode " + QString::number((index+1));
+    m_TCPSocket.write(command.toStdString().c_str(),command.toStdString().size());
+}
+
+
+void MainWindow::on_checkBox_DrawCountur_toggled(bool checked)
+{
+    QString command = "DrawCountur " + QString::number(checked);
+    m_TCPSocket.write(command.toStdString().c_str(),command.toStdString().size());
+}
+
+
+void MainWindow::on_checkBox_DrawArea_toggled(bool checked)
+{
+    QString command = "DrawArea " + QString::number(checked);
+    m_TCPSocket.write(command.toStdString().c_str(),command.toStdString().size());
+}
+
+
+void MainWindow::on_checkBox_InvertMask_toggled(bool checked)
+{
+    QString command = "InvertMask " + QString::number(checked);
+    m_TCPSocket.write(command.toStdString().c_str(),command.toStdString().size());
+}
+
+
+void MainWindow::on_checkBox_PointThermal_toggled(bool checked)
+{
+    QString command = "ThermalOnPoint " + QString::number(checked);
     m_TCPSocket.write(command.toStdString().c_str(),command.toStdString().size());
 }
 

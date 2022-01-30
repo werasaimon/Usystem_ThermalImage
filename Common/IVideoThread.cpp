@@ -12,6 +12,7 @@ IVideoThread::IVideoThread(QObject *parent, QString _Name)
     m_Name(_Name)
 
 {
+    m_Type = (TYPE_CAM::VISIBLE);
 }
 
 IVideoThread::~IVideoThread()
@@ -53,6 +54,11 @@ void IVideoThread::run()
            }
         }
      }
+}
+
+TYPE_CAM IVideoThread::Type() const
+{
+    return m_Type;
 }
 
 bool IVideoThread::getIsText() const

@@ -78,6 +78,17 @@ void ITcpServer::slotServerRead()
             case const_hash("temperature_range"): temperature_range(list); break;
             case const_hash("scale"): scale(list); break;
             case const_hash("shutter"): shutter(list); break;
+            case const_hash("detection"): detection(list); break;
+            case const_hash("threshold"): threshold(list); break;
+            case const_hash("mode"): mode(list); break;
+
+            case const_hash("DrawArea"): DrawArea(list); break;
+            case const_hash("DrawCountur"): DrawCountur(list); break;
+            case const_hash("InvertMask"): InvertMask(list); break;
+
+            case const_hash("PointThermal"): PointThermal(list); break;
+             case const_hash("ThermalOnPoint"): ThermalOnPoint(list); break;
+
             default:
             mTcpSocket->write("no command \n");
                 break;
@@ -249,4 +260,92 @@ void ITcpServer::shutter(QStringList list)
 {
   int checked = list.at(1).toInt();
   ::evo_irimager_set_shutter_mode(checked);
+}
+
+void ITcpServer::detection(QStringList list)
+{
+    int isDetection = list.at(1).toInt();
+    if(thread[0]->Type() == TYPE_CAM::THERMAL)
+    {
+      static_cast<IVideoThreadThermalCam*>(thread[0])->m_DispatcherControl.isDetectionThermalArea = isDetection;
+    }
+}
+
+void ITcpServer::threshold(QStringList list)
+{
+    int threshold = list.at(1).toInt();
+    if(thread[0]->Type() == TYPE_CAM::THERMAL)
+    {
+      static_cast<IVideoThreadThermalCam*>(thread[0])->m_DispatcherControl.ThresholdDetection = threshold;
+    }
+}
+
+void ITcpServer::mode(QStringList list)
+{
+    int mode = list.at(1).toInt();
+    if(thread[0]->Type() == TYPE_CAM::THERMAL)
+    {
+      static_cast<IVideoThreadThermalCam*>(thread[0])->m_DispatcherControl.Mode = mode;
+    }
+}
+
+void ITcpServer::DrawCountur(QStringList list)
+{
+    int isDrawCountur = list.at(1).toInt();
+    if(thread[0]->Type() == TYPE_CAM::THERMAL)
+    {
+      static_cast<IVideoThreadThermalCam*>(thread[0])->m_DispatcherControl.isDrawCountur = isDrawCountur;
+    }
+}
+
+void ITcpServer::DrawArea(QStringList list)
+{
+    int isDrawArea = list.at(1).toInt();
+    if(thread[0]->Type() == TYPE_CAM::THERMAL)
+    {
+      static_cast<IVideoThreadThermalCam*>(thread[0])->m_DispatcherControl.isDrawArea = isDrawArea;
+    }
+}
+
+void ITcpServer::InvertMask(QStringList list)
+{
+    int isInvertMask = list.at(1).toInt();
+    if(thread[0]->Type() == TYPE_CAM::THERMAL)
+    {
+      static_cast<IVideoThreadThermalCam*>(thread[0])->m_DispatcherControl.isInvertMask = isInvertMask;
+    }
+}
+
+void ITcpServer::PointThermal(QStringList list)
+{
+  int x = list.at(1).toInt();
+  int y = list.at(2).toInt();
+  int w = list.at(3).toInt();
+  int h = list.at(4).toInt();
+  if(thread[0]->Type() == TYPE_CAM::THERMAL)
+  {
+      float t_w = static_cast<IVideoThreadThermalCam*>(thread[0])->t_w;
+      float t_h = static_cast<IVideoThreadThermalCam*>(thread[0])->t_h;
+
+      float unit_w = t_w / w;
+      float unit_h = t_h / h;
+
+      float X = floor(x * unit_w);
+      float Y = floor(y * unit_h);
+
+      if((X >= 0 && X <= t_w) && (Y >= 0 && Y <= t_h))
+      {
+          int thermal = static_cast<IVideoThreadThermalCam*>(thread[0])->ThermalPoint(X,Y);
+          qDebug() << x << y << thermal;
+      }
+  }
+}
+
+void ITcpServer::ThermalOnPoint(QStringList list)
+{
+    int isThermalPoint = list.at(1).toInt();
+    if(thread[0]->Type() == TYPE_CAM::THERMAL)
+    {
+      static_cast<IVideoThreadThermalCam*>(thread[0])->m_DispatcherControl.isThermalPoint = isThermalPoint;
+    }
 }

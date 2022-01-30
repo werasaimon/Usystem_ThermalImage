@@ -3,6 +3,9 @@
 
 #include <QLabel>
 #include <QObject>
+#include <QMouseEvent>
+#include <QDebug>
+#include <QTcpSocket>
 
 class FullWindow;
 class IVideoThread;
@@ -19,12 +22,18 @@ public:
     int IndexCamera() const;
     void setIndexCamera(int newIndexCamera);
 
+    void mouseMoveEvent(QMouseEvent* event);
+
+    void setTCPSocket(QTcpSocket *newTCPSocket);
 
 private:
 
     int m_IndexCamera;
     IVideoThread *mOpenCV_videoCapture;
     FullWindow *m_FullWindow;
+
+    QTcpSocket *m_TCPSocket;
+
 };
 
 #endif // LABELVIDEO_H

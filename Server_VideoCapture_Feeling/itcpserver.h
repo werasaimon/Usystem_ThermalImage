@@ -45,6 +45,17 @@ private:
     void scale(QStringList list);
     void shutter(QStringList list);
 
+    //--------------------------//
+    void mode(QStringList list);
+    void detection(QStringList list);
+    void threshold(QStringList list);
+    void DrawCountur(QStringList list);
+    void DrawArea(QStringList list);
+    void InvertMask(QStringList list);
+
+    void PointThermal(QStringList list);
+    void ThermalOnPoint(QStringList list);
+
     int m_NumCam;
     QString m_IPClient;
 

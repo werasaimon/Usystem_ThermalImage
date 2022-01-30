@@ -10,6 +10,9 @@
 
 #define ID_CAMERA 0
 
+
+enum struct  TYPE_CAM { VISIBLE , THERMAL };
+
 class IVideoThread : public QThread
 {
     Q_OBJECT
@@ -36,8 +39,12 @@ public:
     bool getIsText() const;
     void setIsText(bool newIsText);
 
+    TYPE_CAM Type() const;
+
 signals:
     void newPixmapCapture(); //capture a frame
+
+
 protected:
     virtual void run();
     QPixmap mPixmap;              //Qt image
@@ -49,6 +56,7 @@ protected:
     bool isText;
 
     QString m_Name;
+    TYPE_CAM m_Type;
 
     QImage cvMatToQImage(const cv::Mat &inMat, bool isText , QString _str);
     QPixmap cvMatToQPixmap(const cv::Mat &inMat, bool isText , QString _str);

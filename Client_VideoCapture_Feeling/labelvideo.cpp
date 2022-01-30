@@ -5,7 +5,8 @@
 #include <QDebug>
 
 LabelVideo::LabelVideo(QWidget *parent) :
-    QLabel(parent)
+    QLabel(parent) ,
+    m_TCPSocket(nullptr)
 {
 
 }
@@ -22,6 +23,7 @@ void LabelVideo::mouseDoubleClickEvent(QMouseEvent *event)
             {
                     mOpenCV_videoCapture->setIsWindow(true);
                     m_FullWindow = new FullWindow(mOpenCV_videoCapture);
+                    if(m_TCPSocket) m_FullWindow->setTCPSocket(m_TCPSocket);
                     m_FullWindow->show();
 
                     qDebug() << "start camera vindow";
@@ -49,4 +51,24 @@ int LabelVideo::IndexCamera() const
 void LabelVideo::setIndexCamera(int newIndexCamera)
 {
     m_IndexCamera = newIndexCamera;
+}
+
+void LabelVideo::mouseMoveEvent(QMouseEvent *event)
+{
+//    qDebug() << QString::number(event->pos().x());
+//    qDebug() << QString::number(event->pos().y());
+
+    if(m_TCPSocket)
+    {
+          QString command = "PointThermal " + QString::number(event->pos().x()) + " " +
+                                              QString::number(event->pos().y()) + " " +
+                                              QString::number(width()) + " " +
+                                              QString::number(height());
+          m_TCPSocket->write(command.toStdString().c_str(),command.toStdString().size());
+    }
+}
+
+void LabelVideo::setTCPSocket(QTcpSocket *newTCPSocket)
+{
+    m_TCPSocket = newTCPSocket;
 }

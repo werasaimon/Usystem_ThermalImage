@@ -53,7 +53,24 @@ void FullWindow::closeEvent(QCloseEvent *event)
 
 void FullWindow::resizeEvent(QResizeEvent *event)
 {
-   ui->labelOutVideo->setGeometry(0,0,event->size().width(),event->size().height());
+    ui->labelOutVideo->setGeometry(0,0,event->size().width(),event->size().height());
+}
+
+void FullWindow::mouseMoveEvent(QMouseEvent *event)
+{
+    if(m_TCPSocket)
+    {
+          QString command = "PointThermal " + QString::number(event->pos().x()) + " " +
+                                              QString::number(event->pos().y()) + " " +
+                                              QString::number(width()) + " " +
+                                              QString::number(height());
+          m_TCPSocket->write(command.toStdString().c_str(),command.toStdString().size());
+    }
+}
+
+void FullWindow::setTCPSocket(QTcpSocket *newTCPSocket)
+{
+   m_TCPSocket = newTCPSocket;
 }
 
 
